@@ -44,11 +44,43 @@
       <h2>Real-Time Object Detection</h2>
       <h4>Dashboard</h4>
       <h4>Customize Alert System</h4>
+
+      <form action="/save-settings" method="post">
+        <label>
+          <input type="checkbox" name="sound" checked>
+          Sound Alerts
+        </label>
+        <br>
       
+        <label>
+          <input type="checkbox" name="vibration">
+          Vibration
+        </label>
+        <br>
+      
+        <label for="frequency">Notification Frequency:</label>
+        <select name="frequency" id="frequency">
+          <option value="instant">Instant</option>
+          <option value="hourly">Hourly</option>
+          <option value="daily">Daily</option>
+        </select>
+        <br><br>
+      
+        <label>
+          <input type="checkbox" name="criticalOnly">
+          Only show critical alerts
+        </label>
+        <br><br>
+      
+        <button type="submit">Save Settings</button>
+</form>
     </div>
     
     <div>
       <h2>Support Systems</h2>
+      <button>Contact Boston 311</button>
+      <button>Contact __________</button>
+      <button>ADA Ramp Access Form</button>
     </div>
     
     <div>
