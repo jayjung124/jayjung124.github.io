@@ -26,7 +26,7 @@ function contactsystem(button) {
     url = "https://www.boston.gov/departments/boston-311";
   }else if(text.includes("Contact Wonders in Reach")){
     url = "https://wonderswithinreach.com/2021/07/wheelchair-accessible-boston/";
-  }else if(text.includes("ADA Ramp Request Form")){
+  }else if(text.includes("ADA Ramp Access Form")){
     url = "https://www.boston.gov/departments/disabilities-commission/ada-curb-ramp-requests";
   }
   else {
