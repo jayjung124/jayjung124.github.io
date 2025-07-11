@@ -19,5 +19,12 @@ function setDestinationCoordinates() {
 
 function contactsystem(button) {
   const text = button.innerText;
-  alert(`You selected: ${text}`); // ✅ 알람창 표시
+  let url = "";
+  if (text.includes("Boston 311")) {
+    url = "https://www.boston.gov/departments/boston-311";
+  }else {
+    alert("No URL assigned for this contact option.");
+    return;
+  }
+  window.location.href = url;
 }
