@@ -10,3 +10,13 @@ function selectRoute(button) {
     output.innerText = `You selected: ${text}`;
   }
 }
+
+function setStartCoordinates() {
+  document.getElementById("start-lat").value = 50;
+  document.getElementById("start-lng").value = 50;
+}
+
+function setDestinationCoordinates() {
+  document.getElementById("dest-lat").value = 10;
+  document.getElementById("dest-lng").value = 10;
+}
