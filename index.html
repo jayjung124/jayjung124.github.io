@@ -28,6 +28,7 @@
       defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-I-dlRuOiijTcNZkubsPTv4Pl1AW7GFI&callback=initMap"
     ></script>
+    <script src="button_action.js"></script>
     <div>
       <h2>Navigation Bar</h2>
       <button>Start</button>
@@ -42,10 +43,12 @@
       <label for="start-lng">Longitude:</label>
       <input type="text" id="name" name="name" placeholder="e.g. -118.2437" />
 
-      <h2>Route Selection</h2>
-      <button>Efficient</button>
-      <button>Safe</button>
-      <button>Custom</button>
+    <h2>Route Selection</h2>
+    <button onclick="selectRoute(this)">Efficient</button>
+    <button onclick="selectRoute(this)">Safe</button>
+    <button onclick="selectRoute(this)">Custom</button>
+      
+    <p id="route-output" style="font-weight: bold; font-size: 18px;"></p>
     </div>
     
     <div>
