@@ -19,10 +19,17 @@ function setDestinationCoordinates() {
 
 function contactsystem(button) {
   const text = button.innerText;
+
   let url = "";
+
   if (text.includes("Boston 311")) {
     url = "https://www.boston.gov/departments/boston-311";
-  }else {
+  }else if(text.includes("Contact Wonders in Reach")){
+    url = "https://wonderswithinreach.com/2021/07/wheelchair-accessible-boston/";
+  }else if(text.includes("ADA Ramp Request Form")){
+    url = "https://www.boston.gov/departments/disabilities-commission/ada-curb-ramp-requests";
+  }
+  else {
     alert("No URL assigned for this contact option.");
     return;
   }
