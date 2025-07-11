@@ -32,16 +32,17 @@
     <div>
       <h2>Navigation Bar</h2>
       <button>Start</button>
+      <button onclick="setStartCoordinates()">Start</button>
       <label for="start-lat">Latitude:</label>
-      <input type="text" id="name" name="name" placeholder="e.g. 37.7749" />
+      <input type="text" id="start-lat" name="start-lat" placeholder="e.g. 37.7749" />
       <label for="start-lng">Longitude:</label>
-      <input type="text" id="name" name="name" placeholder="e.g. -122.4194" />
-      
-      <button>Destination</button>
-      <label for="start-lat">Latitude:</label>
-      <input type="text" id="name" name="name" placeholder="e.g. 34.0522" />
-      <label for="start-lng">Longitude:</label>
-      <input type="text" id="name" name="name" placeholder="e.g. -118.2437" />
+      <input type="text" id="start-lng" name="start-lng" placeholder="e.g. -122.4194" />
+
+      <button onclick="setDestinationCoordinates()">Destination</button>
+      <label for="dest-lat">Latitude:</label>
+      <input type="text" id="dest-lat" name="dest-lat" placeholder="e.g. 34.0522" />
+      <label for="dest-lng">Longitude:</label>
+      <input type="text" id="dest-lng" name="dest-lng" placeholder="e.g. -118.2437" />
 
     <h2>Route Selection</h2>
     <button onclick="selectRoute(this)">Efficient</button>
