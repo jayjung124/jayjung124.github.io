@@ -35,3 +35,19 @@ function contactsystem(button) {
   }
   window.location.href = url;
 }
+
+function contributedatasystem(button) {
+   const text = button.innerText;
+
+  let url = "";
+
+  if (text.includes("Click here to create more boundless cities!")) {
+    url = "https://forms.gle/9kxAYWuhLZEBGbKP7";
+    //Demo Version Link
+ else {
+    alert("No URL assigned for this contact option.");
+    return;
+  }
+  window.location.href = url;
+}
+    
