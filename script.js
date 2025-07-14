@@ -1,5 +1,6 @@
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2Z2qzOUo5U5RZ5-cV79UeGsO6SzYY7GbJenPWVLKhx8-8S-yWZ0z6UFDd07_bHZ5mT3pFA6FP-r8b/pub?gid=0&single=true&output=csv';
-
+let marker;
+let activeTarget=1;
 function convertImageLink(url) {
   const match = url.match(/\/d\/(.*?)\//);
   return match ? `https://drive.google.com/uc?export=view&id=${match[1]}` : url;
@@ -65,6 +66,28 @@ function initMap() {
           infowindow.open(map, marker);
         });
       });
+
+        map.addListener("click", (e) => {
+        const lat = e.latLng.lat();
+        const lng = e.latLng.lng();
+
+        if (marker) {
+        marker.setMap(null);
+        }
+        marker = new google.maps.Marker({
+          position: { lat, lng },
+          map: map,
+          });
+
+        if (activeTarget === 1) {
+        document.getElementById("lat1").value = lat.toFixed(6);
+        document.getElementById("lng1").value = lng.toFixed(6);
+        }
+        else if (activeTarget === 2) {
+        document.getElementById("lat2").value = lat.toFixed(6);
+        document.getElementById("lng2").value = lng.toFixed(6);
+        }
+    });
     })
     .catch(error => {
       alert("Failed to load data.");
