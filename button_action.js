@@ -1,11 +1,29 @@
 // button_action.js
+function drawRoute(n) {
+    const lat1 = parseFloat(document.getElementById("lat1").value);
+    const lng1 = parseFloat(document.getElementById("lng1").value);
+    const lat2 = parseFloat(document.getElementById("lat2").value);
+    const lng2 = parseFloat(document.getElementById("lng2").value);
 
-function selectRoute(button) {
-  const text = button.innerText;
-  alert(`You selected: ${text}`); // ✅ 알람창 표시
+    if (isNaN(lat1) || isNaN(lng1) || isNaN(lat2) || isNaN(lng2)) {
+      alert("Select your starting point and destination..");
+      return;
+    }
 
-  // 선택적으로 HTML에도 표시
-}
+    const request = {
+      origin: { lat: lat1, lng: lng1 },
+      destination: { lat: lat2, lng: lng2 },
+      travelMode: google.maps.TravelMode.DRIVING,
+    };
+
+    directionsService.route(request, function (result, status) {
+      if (status === google.maps.DirectionsStatus.OK) {
+        directionsRenderer.setDirections(result);
+      } else {
+        alert("No results found" + status);
+      }
+    });
+  }
 
 function setStartCoordinates() {
   document.getElementById("start-lat").value = 50;
