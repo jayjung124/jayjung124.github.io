@@ -99,3 +99,21 @@ function setTarget(targetNum) {
   activeTarget = targetNum;
   alert(`${targetNum}.`);
 }
+
+function drawRoute(n) {
+  const lat1 = parseFloat(document.getElementById("lat1").value);
+  const lng1 = parseFloat(document.getElementById("lng1").value);
+  const lat2 = parseFloat(document.getElementById("lat2").value);
+  const lng2 = parseFloat(document.getElementById("lng2").value);
+
+if (isNaN(lat1) || isNaN(lng1) || isNaN(lat2) || isNaN(lng2)) {
+  alert("Select your starting point and destination..");
+  return;
+}
+
+  const request = {
+  origin: { lat: lat1, lng: lng1 },
+  destination: { lat: lat2, lng: lng2 },
+  travelMode: google.maps.TravelMode.DRIVING,
+};
+
