@@ -71,3 +71,8 @@ function initMap() {
       console.error(error);
     });
 }
+
+function setTarget(targetNum) {
+  activeTarget = targetNum;
+  alert(`${targetNum}.`);
+}
