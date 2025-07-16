@@ -61,8 +61,7 @@ function contributedatasystem(button) {
 
   if (text.includes("Click here to create more boundless cities!")) {
     url = "https://forms.gle/9kxAYWuhLZEBGbKP7";
-    //Demo Version Link
- else {
+  else {
     alert("No URL assigned for this contact option.");
     return;
   }
