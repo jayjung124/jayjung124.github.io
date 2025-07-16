@@ -104,5 +104,21 @@
         alert('Failed to access camera.');
       });
     </script>
+
+    <script>
+      function startCamera() {
+        const video = document.getElementById('camera');
+    
+        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+          .then(stream => {
+            video.srcObject = stream;
+          })
+          .catch(error => {
+            console.error('Failed to access camera:', error);
+            alert('Failed to access camera.');
+          });
+      }
+    </script>
   </body>
 </html>
+
