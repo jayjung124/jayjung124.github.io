@@ -40,7 +40,7 @@ function contributedatasystem(button) {
 
   window.location.href = url;
 }
-
+  let cameraStream = null;
   function camerasystem(button) {
     const text = button.innerText;
 
