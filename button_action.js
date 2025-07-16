@@ -68,4 +68,3 @@ function contributedatasystem(button) {
   }
   window.location.href = url;
 }
-    
