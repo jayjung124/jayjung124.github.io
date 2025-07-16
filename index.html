@@ -107,18 +107,27 @@
 
     <video id="camera" width="640" height="480" autoplay></video>
     <button onclick="camerasystem()">Real-Time Object Detection</button>
-    <script>
-      function startCamera() {
-        const video = document.getElementById('camera');
+     <script>
+      function camerasystem(button) {
+        const text = button.innerText;
     
-        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-          .then(stream => {
-            video.srcObject = stream;
-          })
-          .catch(error => {
-            console.error('Failed to access camera:', error);
-            alert('Failed to access camera.');
-          });
+        if (text.includes("Real-Time Object Detection")) {
+          const video = document.getElementById("camera");
+    
+          navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+            .then(stream => {
+              video.srcObject = stream;
+              video.play();
+            })
+            .catch(error => {
+              console.error('Failed to access camera:', error);
+              alert('Failed to access camera.');
+            });
+    
+        } else {
+          alert("No camera action assigned for this button.");
+          return;
+        }
       }
     </script>
   </body>
