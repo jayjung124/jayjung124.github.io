@@ -1,6 +1,7 @@
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2Z2qzOUo5U5RZ5-cV79UeGsO6SzYY7GbJenPWVLKhx8-8S-yWZ0z6UFDd07_bHZ5mT3pFA6FP-r8b/pub?gid=0&single=true&output=csv';
 let marker;
 let activeTarget=1;
+
 function convertImageLink(url) {
   const match = url.match(/\/d\/(.*?)\//);
   return match ? `https://drive.google.com/uc?export=view&id=${match[1]}` : url;
@@ -94,26 +95,4 @@ function initMap() {
       console.error(error);
     });
 }
-
-function setTarget(targetNum) {
-  activeTarget = targetNum;
-  alert(`${targetNum}.`);
-}
-
-function drawRoute(n) {
-  const lat1 = parseFloat(document.getElementById("lat1").value);
-  const lng1 = parseFloat(document.getElementById("lng1").value);
-  const lat2 = parseFloat(document.getElementById("lat2").value);
-  const lng2 = parseFloat(document.getElementById("lng2").value);
-
-if (isNaN(lat1) || isNaN(lng1) || isNaN(lat2) || isNaN(lng2)) {
-  alert("Select your starting point and destination..");
-  return;
-}
-
-  const request = {
-  origin: { lat: lat1, lng: lng1 },
-  destination: { lat: lat2, lng: lng2 },
-  travelMode: google.maps.TravelMode.DRIVING,
-};
 
