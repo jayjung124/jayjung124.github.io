@@ -5,105 +5,100 @@
     <meta charset="utf-8" />
     <style>
       #map {
-        height: 100vh;
+        height: 80vh;
         width: 100%;
       }
-
       #dashboard-box {
         height: 50vh;
         width: 100%;
         background-color: #f0f0f0;
         border-top: 2px solid #ccc;
         box-sizing: border-box;
-      } 
+      }
+      #buttons {
+        margin: 10px;
+      }
+      button {
+        font-size: 16px;
+        margin: 5px;
+        padding: 10px;
+      }
     </style>
   </head>
   <body>
-    <h2>♿ Wheelchair Accessibility Map</h2>
+    <h2>♿ Wheelchair Accessibility + Navigation</h2>
+
+    <div id="buttons">
+      <button onclick="setTarget(1)">start</button>
+      <input id="lat1" placeholder="start latitude" />
+      <input id="lng1" placeholder="start longitude" />
+
+      <button onclick="setTarget(2)">destination</button>
+      <input id="lat2" placeholder="destination latitude" />
+      <input id="lng2" placeholder="destination longitude" />
+    </div>
+
     <div id="map"></div>
 
-    <script src="script.js"></script>
-    <script
-      async
-      defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-I-dlRuOiijTcNZkubsPTv4Pl1AW7GFI&callback=initMap"
-    ></script>
-    <script src="button_action.js"></script>
     <div>
-      <h2>Navigation Bar</h2>
-      <button onclick="setStartCoordinates()">Start</button>
-      <label for="lat1">Latitude:</label>
-      <input type="text" id="lat1" name="lat1" placeholder="e.g. 37.7749" />
-      <label for="lng1">Longitude:</label>
-      <input type="text" id="lng1" name="lng1" placeholder="e.g. -122.4194" />
-
-      <button onclick="setDestinationCoordinates()">Destination</button>
-      <label for="lat2">Latitude:</label>
-      <input type="text" id="lat2" name="lat2" placeholder="e.g. 34.0522" />
-      <label for="lng2">Longitude:</label>
-      <input type="text" id="lng2" name="lng2" placeholder="e.g. -118.2437" />
-      <button onclick="setTarget(1)">1번</button>
-      <button onclick="setTarget(2)">2번</button>
-
-    <h2>Route Selection</h2>
-    <button onclick="selectRoute(this)">Efficient</button>
-    <button onclick="selectRoute(this)">Safe</button>
-    <button onclick="selectRoute(this)">Custom</button>
-      
-    <p id="route-output" style="font-weight: bold; font-size: 18px;"></p>
+      <h2>Route Selection</h2>
+      <button onclick="showDrivingRoute()">driving</button>
+      <button onclick="showTransitRoute()">public transportation</button>
+      <button onclick="selectRoute(this)">Custom</button>
+      <p id="route-output" style="font-weight: bold; font-size: 18px;"></p>
     </div>
-    
+
     <div>
       <h2>Real-Time Object Detection</h2>
-       <button onclick="camerasystem(this)">Real-Time Object Detection</button>
-
-       <p id="connect-camera" style="font-weight: bold; font-size: 18px;"></p>
+      <button onclick="camerasystem(this)">Real-Time Object Detection</button>
+      <p id="connect-camera" style="font-weight: bold; font-size: 18px;"></p>
       <div id="dashboard-box"></div>
       <h4>camera</h4>
       <video id="camera" autoplay playsinline></video>
       <h4>Customize Alert System</h4>
-
-        <label>
-          <input type="checkbox" name="sound" checked>
-          Sound Alerts
-        </label>
-        <br>
-      
-        <label>
-          <input type="checkbox" name="vibration">
-          Vibration
-          
-        </label>
-        <button type="submit">Save Settings</button>
+      <label><input type="checkbox" name="sound" checked> Sound Alerts</label><br>
+      <label><input type="checkbox" name="vibration"> Vibration</label>
+      <button type="submit">Save Settings</button>
     </div>
-    
+
     <div>
       <h2>Support Systems</h2>
       <button onclick="contactsystem(this)">Contact Boston 311</button>
       <button onclick="contactsystem(this)">Contact Wonders in Reach</button>
       <button onclick="contactsystem(this)">ADA Ramp Access Form</button>
-
       <p id="contact-support" style="font-weight: bold; font-size: 18px;"></p>
     </div>
-    
+
     <div>
       <h2>Contribute Data</h2>
       <button onclick="contributedatasystem(this)">Click here to create more boundless cities!</button>
-
-       <p id="join-the-movement" style="font-weight: bold; font-size: 18px;"></p>
+      <p id="join-the-movement" style="font-weight: bold; font-size: 18px;"></p>
     </div>
-    <script>
-    const video = document.getElementById('camera');
 
-    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-      .then(stream => {
-        video.srcObject = stream;
-      })
-      .catch(error => {
-        console.error('Failed to access camera:', error);
-        alert('Failed to access camera.');
-      });
+    <script src="script.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-I-dlRuOiijTcNZkubsPTv4Pl1AW7GFI&callback=initMap"></script>
+    <script>
+      const video = document.getElementById('camera');
+      navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        .then(stream => {
+          video.srcObject = stream;
+        })
+        .catch(error => {
+          console.error('Failed to access camera:', error);
+          alert('Failed to access camera.');
+        });
+
+      function startCamera() {
+        const video = document.getElementById('camera');
+        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+          .then(stream => {
+            video.srcObject = stream;
+          })
+          .catch(error => {
+            console.error('Failed to access camera:', error);
+            alert('Failed to access camera.');
+          });
+      }
     </script>
   </body>
 </html>
-
