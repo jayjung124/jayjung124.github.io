@@ -41,17 +41,24 @@ function contributedatasystem(button) {
   window.location.href = url;
 }
 
-function camerasystem(button) {
-  const text = button.innerText;
-  let url = "";
-
-  if (text.includes("Real-Time Object Detection")) {
-    // Demo Version Link
-    url = "https://forms.gle/9kxAYWuhLZEBGbKP7";
-  } else {
-    alert("No URL assigned for this contact option.");
-    return;
-  }
-
-  window.location.href = url;
-}
+  function camerasystem(button) {
+        const text = button.innerText;
+    
+        if (text.includes("Real-Time Object Detection")) {
+          const video = document.getElementById("camera");
+    
+          navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+            .then(stream => {
+              video.srcObject = stream;
+              video.play();
+            })
+            .catch(error => {
+              console.error('Failed to access camera:', error);
+              alert('Failed to access camera.');
+            });
+    
+        } else {
+          alert("No camera action assigned for this button.");
+          return;
+        }
+      }
