@@ -89,5 +89,17 @@
 
        <p id="join-the-movement" style="font-weight: bold; font-size: 18px;"></p>
     </div>
+    <script>
+    const video = document.getElementById('camera');
+
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(error => {
+        console.error('카메라 접근 실패:', error);
+        alert('카메라에 접근할 수 없습니다.');
+      });
+    </script>
   </body>
 </html>
