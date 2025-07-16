@@ -40,25 +40,34 @@ function contributedatasystem(button) {
 
   window.location.href = url;
 }
-  let cameraStream = null;
-  function camerasystem(button) {
-    const text = button.innerText;
+let cameraStream = null;
 
-    if (text.includes("Real-Time Object Detection")) {
-      const video = document.getElementById("camera");
+function camerasystem(button) {
+  const text = button.innerText;
 
-      navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-        .then(stream => {
-          video.srcObject = stream;
-          video.play();
-        })
-        .catch(error => {
-          console.error('Failed to access camera:', error);
-          alert('Failed to access camera.');
-        });
+  if (text.includes("Real-Time Object Detection")) {
+    const video = document.getElementById("camera");
 
-    } else {
-      alert("No camera action assigned for this button.");
+    if (cameraStream) {
+      alert("Camera is already on.");
       return;
     }
+
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+      .then(stream => {
+        cameraStream = stream; // Store the stream so we don't restart it
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch(error => {
+        console.error('Failed to access camera:', error);
+        alert('Failed to access camera.');
+      });
+
+  } else {
+    alert("No camera action assigned for this button.");
+    return;
+  }
+}
+
 }
