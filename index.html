@@ -55,6 +55,8 @@
       <h4>Customize Alert System</h4>
       <label><input type="checkbox" name="sound" checked> Sound Alerts</label><br>
       <label><input type="checkbox" name="vibration"> Vibration</label>
+      <button onclick="playAlert()">Play Alert Sound</button>
+      <audio id="alert-sound" src="https://actions.google.com/sounds/v1/alarms/spaceship_alarm.ogg" preload="auto"></audio>
       <button type="submit">Save Settings</button>
     </div>
 
@@ -86,6 +88,10 @@
             alert('Failed to access camera.');
           });
       }
+      function playAlert() {
+        const alertSound = document.getElementById('alert-sound');
+        alertSound.play();
+        }
     </script>
   </body>
 </html>
