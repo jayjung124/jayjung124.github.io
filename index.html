@@ -49,9 +49,9 @@
 
     <div>
       <h2>Real-Time Object Detection</h2>
-      <button onclick="camerasystem(this)">Real-Time Object Detection</button>
       <p id="connect-camera" style="font-weight: bold; font-size: 18px;"></p>
       <video id="camera" autoplay playsinline></video>
+      <button onclick="startCamera()">Real-Time Object Detection</button>
       <h4>Customize Alert System</h4>
       <label><input type="checkbox" name="sound" checked> Sound Alerts</label><br>
       <label><input type="checkbox" name="vibration"> Vibration</label>
@@ -75,16 +75,6 @@
     <script src="script.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-I-dlRuOiijTcNZkubsPTv4Pl1AW7GFI&callback=initMap"></script>
     <script>
-      const video = document.getElementById('camera');
-      navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-        .then(stream => {
-          video.srcObject = stream;
-        })
-        .catch(error => {
-          console.error('Failed to access camera:', error);
-          alert('Failed to access camera.');
-        });
-
       function startCamera() {
         const video = document.getElementById('camera');
         navigator.mediaDevices.getUserMedia({ video: true, audio: false })
