@@ -92,6 +92,69 @@
         const alertSound = document.getElementById('alert-sound');
         alertSound.play();
         }
+      
+      function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 15,
+          center: origin,
+        });
+  
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+  
+        calculateRoute();
+  
+        // 실시간 위치 추적
+        if (navigator.geolocation) {
+          navigator.geolocation.watchPosition(position => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+  
+            const distance = getDistance(lat, lng, destination.lat, destination.lng);
+  
+            document.getElementById("status").textContent =
+              `현재 위치: (${lat.toFixed(5)}, ${lng.toFixed(5)}), 목적지까지 거리: ${distance.toFixed(1)}m`;
+  
+            if (distance <= 100 && !alerted) {
+              alerted = true;
+              alert("🎯 목적지까지 100m 이내입니다!");
+              document.getElementById("alert-sound").play();
+            }
+          }, error => {
+            document.getElementById("status").textContent = "위치 정보를 가져올 수 없습니다.";
+          });
+        } else {
+          alert("이 브라우저는 위치 서비스를 지원하지 않습니다.");
+        }
+      }
+      // 경로 계산
+      function calculateRoute() {
+        directionsService.route(
+          {
+            origin: origin,
+            destination: destination,
+            travelMode: google.maps.TravelMode.WALKING,
+          },
+          (response, status) => {
+            if (status === "OK") {
+              directionsRenderer.setDirections(response);
+            } else {
+              alert("경로 계산 실패: " + status);
+            }
+          }
+        );
+      }
+      function getDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371000;
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a =
+          Math.sin(dLat / 2) ** 2 +
+          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+          Math.sin(dLon / 2) ** 2;
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+      }
     </script>
   </body>
 </html>
