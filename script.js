@@ -53,12 +53,6 @@ function parseCSV(text) {
     return obj;
   });
 }
-
-  function initMap() {
-    map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 14,
-      center: { lat: 42.35, lng: -71.08 },
-    });
   
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
