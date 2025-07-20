@@ -25,57 +25,73 @@
       }
     </style>
   </head>
+
   <body>
-    <h2>♿ Wheelchair Accessibility + Navigation</h2>
+    <h2>♿ Wheelchair Accessibility & Navigation System</h2>
 
+    <!-- Coordinate Input Section -->
     <div id="buttons">
-      <button onclick="setTarget(1)">start</button>
-      <input id="lat1" placeholder="start latitude" />
-      <input id="lng1" placeholder="start longitude" />
+      <button onclick="setTarget(1)">Set Start Point</button>
+      <input id="lat1" placeholder="Start Latitude" />
+      <input id="lng1" placeholder="Start Longitude" />
 
-      <button onclick="setTarget(2)">destination</button>
-      <input id="lat2" placeholder="destination latitude" />
-      <input id="lng2" placeholder="destination longitude" />
+      <button onclick="setTarget(2)">Set Destination</button>
+      <input id="lat2" placeholder="Destination Latitude" />
+      <input id="lng2" placeholder="Destination Longitude" />
     </div>
 
+    <!-- Map Display -->
     <div id="map"></div>
 
+    <!-- Route Mode Selection -->
     <div>
       <h2>Route Selection</h2>
-      <button onclick="showDrivingRoute()">Efficent Mode (Fastest Route)</button>
+      <button onclick="showDrivingRoute()">Efficient Mode (Fastest Route)</button>
       <button onclick="showTransitRoute()">Safe Mode (Public Transportation)</button>
       <p id="route-output" style="font-weight: bold; font-size: 18px;"></p>
     </div>
 
+    <!-- Real-Time Object Detection (Camera Section) -->
     <div>
       <h2>Real-Time Object Detection</h2>
       <p id="connect-camera" style="font-weight: bold; font-size: 18px;"></p>
       <video id="camera" autoplay playsinline></video><br>
-      <button onclick="startCamera()">Real-Time Object Detection</button>
+      <button onclick="startCamera()">Activate Camera</button>
       <h4>Customize Alert System</h4>
-      <label><input type="checkbox" name="sound" checked> Sound Alerts</label><br>
-      <label><input type="checkbox" name="vibration"> Vibration</label>
-      <button onclick="playAlert()">Play Alert Sound</button>
+      <label><input type="checkbox" name="sound" checked> Enable Sound Alerts</label><br>
+      <label><input type="checkbox" name="vibration"> Enable Vibration</label>
+      <button onclick="playAlert()">Test Alert Sound</button>
       <audio id="alert-sound" src="https://actions.google.com/sounds/v1/alarms/spaceship_alarm.ogg" preload="auto"></audio>
       <button type="submit">Save Settings</button>
     </div>
 
+    <!-- Support Section -->
     <div>
-      <h2>Support Systems</h2>
+      <h2>Support Services</h2>
       <button onclick="contactsystem(this)">Contact Boston 311</button>
       <button onclick="contactsystem(this)">Contact Wonders in Reach</button>
       <button onclick="contactsystem(this)">ADA Ramp Access Form</button>
       <p id="contact-support" style="font-weight: bold; font-size: 18px;"></p>
     </div>
 
+    <!-- Contribution Section -->
     <div>
-      <h2>Contribute Data</h2>
-      <button onclick="contributedatasystem(this)">Click here to create more boundless cities!</button>
+      <h2>Contribute Your Data</h2>
+      <button onclick="contributedatasystem(this)">Click here to help build more inclusive cities!</button>
       <p id="join-the-movement" style="font-weight: bold; font-size: 18px;"></p>
     </div>
 
+    <!-- Real-Time Proximity Alert -->
+    <div>
+      <h2>📡 Real-Time Proximity Alert</h2>
+      <p id="proximity-status" style="font-weight: bold; font-size: 16px;"></p>
+    </div>
+
+    <!— External Scripts —>
     <script src="script.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-I-dlRuOiijTcNZkubsPTv4Pl1AW7GFI&callback=initMap"></script>
+
+    <!— Camera & Alert Sound Functions —>
     <script>
       function startCamera() {
         const video = document.getElementById('camera');
@@ -85,13 +101,14 @@
           })
           .catch(error => {
             console.error('Failed to access camera:', error);
-            alert('Failed to access camera.');
+            alert('Unable to access your camera.');
           });
       }
+
       function playAlert() {
         const alertSound = document.getElementById('alert-sound');
         alertSound.play();
-        }
+      }
     </script>
   </body>
 </html>
