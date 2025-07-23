@@ -9,21 +9,21 @@ function setDestinationCoordinates() {
 }
 
 function contactsystem(button) {
-  const text = button.innerText;
+  const text = button.innerText.trim();
   let url = "";
 
   if (text.includes("Boston 311")) {
     url = "https://www.boston.gov/departments/boston-311";
-  } else if (text.includes("Contact Wonders in Reach")) {
+  } else if (text.includes("Wonders") || text.includes("Reach")) {
     url = "https://wonderswithinreach.com/2021/07/wheelchair-accessible-boston/";
-  } else if (text.includes("ADA Ramp Access Form")) {
+  } else if (text.includes("Ramp") || text.includes("ADA")) {
     url = "https://www.boston.gov/departments/disabilities-commission/ada-curb-ramp-requests";
   } else {
     alert("No URL assigned for this contact option.");
     return;
   }
 
-  window.location.href = url;
+  window.open(url, "_blank"); 
 }
 
 function contributedatasystem(button) {
