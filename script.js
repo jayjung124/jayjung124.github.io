@@ -203,14 +203,3 @@ function startCamera() {
 function playAlert() {
   document.getElementById('alert-sound').play();
 }
-
-/* ========= Placeholder Callbacks ========= */
-function contactsystem(btn) {
-  document.getElementById('contact-support').textContent =
-    `${btn.innerText} – we will reach out soon!`;
-}
-
-function contributedatasystem(btn) {
-  document.getElementById('join-the-movement').textContent =
-    'Thanks for joining the movement!';
-}
