@@ -69,3 +69,18 @@ function camerasystem(button) {
     return;
   }
 }
+
+function playAlert() {
+  const alertSound = document.getElementById('alert-sound');
+  let count = 0;
+  alertSound.currentTime = 0;
+  alertSound.play();
+
+  alertSound.onended = function () {
+    count++;
+    if (count < 5) {
+      alertSound.currentTime = 0;
+      alertSound.play();
+    }
+  };
+}
