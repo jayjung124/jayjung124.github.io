@@ -73,14 +73,20 @@ function camerasystem(button) {
 function playAlert() {
   const alertSound = document.getElementById('alert-sound');
   let count = 0;
-  alertSound.currentTime = 0;
-  alertSound.play();
 
-  alertSound.onended = function () {
-    count++;
+  function playSound() {
     if (count < 5) {
       alertSound.currentTime = 0;
       alertSound.play();
+      count++;
+    } else {
+      alertSound.pause();
+      alertSound.currentTime = 0;
+      alertSound.removeEventListener('ended', playSound);
     }
-  };
+  }
+
+  alertSound.removeEventListener('ended', playSound);
+  alertSound.addEventListener('ended', playSound);
+  playSound();
 }
