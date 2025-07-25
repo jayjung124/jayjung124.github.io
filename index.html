@@ -76,6 +76,20 @@
   <!-- YOLO Detection -->
   <div>
     <h2>Real-Time Object Detection</h2>
+        <!-- Real-Time Object Detection (Camera Section) -->
+    <div>
+      <h2>Real-Time Object Detection</h2>
+      <p id="connect-camera" style="font-weight: bold; font-size: 18px;"></p>
+      <video id="camera" autoplay playsinline></video><br>
+      <button onclick="startCamera()">Activate Camera</button>
+      <h4>Customize Alert System</h4>
+      <label><input type="checkbox" name="sound" checked> Enable Sound Alerts</label><br>
+      <label><input type="checkbox" name="vibration"> Enable Vibration</label>
+      <button onclick="playAlert()">Test Alert Sound</button>
+      <audio id="alert-sound" src="https://actions.google.com/sounds/v1/alarms/spaceship_alarm.ogg" preload="auto"></audio>
+      <button type="submit">Save Settings</button>
+    </div>
+
     <div id="container">
       <video autoplay="true" id="videoElement" playsinline></video>
       <!-- Bounding boxes (.box) will be dynamically inserted here -->
