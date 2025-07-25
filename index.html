@@ -1,177 +1,210 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Wheelchair Accessibility Map</title>
-    <meta charset="utf-8" />
-    <style>
-      #map {
-        height: 80vh;
-        width: 100%;
-      }
-      #dashboard-box {
-        height: 50vh;
-        width: 100%;
-        background-color: #f0f0f0;
-        border-top: 2px solid #ccc;
-        box-sizing: border-box;
-      }
-      #buttons {
-        margin: 10px;
-      }
-      button {
-        font-size: 16px;
-        margin: 5px;
-        padding: 10px;
-      }
-    </style>
-  </head>
+<head>
+  <title>wheelchair-accessible-navigation-system</title>
+  <meta charset="utf-8" />
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+  <style>
+    #container {
+      position: relative;
+      width: 640px;
+      height: 480px;
+      margin-bottom: 20px;
+    }
 
-  <body>
-    <h2>♿ Wheelchair Accessibility & Navigation System</h2>
+    #videoElement {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 640px;
+      height: 480px;
+      z-index: 1;
+    }
 
-    <!-- Coordinate Input Section -->
-    <div id="buttons">
-      <button onclick="setTarget(1)">Set Start Point</button>
-      <input id="lat1" placeholder="Start Latitude" />
-      <input id="lng1" placeholder="Start Longitude" />
+    .box {
+      position: absolute;
+      border: 2px solid red;
+      color: red;
+      font-size: 14px;
+      font-weight: bold;
+      z-index: 2;
+      pointer-events: none;
+    }
 
-      <button onclick="setTarget(2)">Set Destination</button>
-      <input id="lat2" placeholder="Destination Latitude" />
-      <input id="lng2" placeholder="Destination Longitude" />
+    #map {
+      height: 80vh;
+      width: 100%;
+    }
+
+    #buttons {
+      margin: 10px;
+    }
+
+    button {
+      font-size: 16px;
+      margin: 5px;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>♿ Wheelchair Accessibility & Navigation + YOLO Detection</h2>
+
+  <!-- Coordinate Input -->
+  <div id="buttons">
+    <button onclick="setTarget(1)">Set Start Point</button>
+    <input id="lat1" placeholder="Start Latitude" />
+    <input id="lng1" placeholder="Start Longitude" />
+    <button onclick="setTarget(2)">Set Destination</button>
+    <input id="lat2" placeholder="Destination Latitude" />
+    <input id="lng2" placeholder="Destination Longitude" />
+  </div>
+
+  <!-- Google Map -->
+  <div id="map"></div>
+
+  <!-- Route Mode Selection -->
+  <div>
+    <h2>Route Selection</h2>
+    <button onclick="showDrivingRoute()">Efficient Mode (Fastest)</button>
+    <button onclick="showTransitRoute()">Safe Mode (Public Transit)</button>
+    <p id="route-output" style="font-weight: bold; font-size: 18px;"></p>
+  </div>
+
+  <!-- YOLO Detection -->
+  <div>
+    <h2>Real-Time Object Detection</h2>
+    <div id="container">
+      <video autoplay="true" id="videoElement" playsinline></video>
+      <!-- Bounding boxes (.box) will be dynamically inserted here -->
     </div>
+  </div>
 
-    <!-- Map Display -->
-    <div id="map"></div>
+  <!-- Support Services -->
+  <div>
+    <h2>Support Services</h2>
+    <button onclick="contactsystem(this)">Contact Boston 311</button>
+    <button onclick="contactsystem(this)">Contact Wonders in Reach</button>
+    <button onclick="contactsystem(this)">ADA Ramp Access Form</button>
+    <p id="contact-support" style="font-weight: bold; font-size: 18px;"></p>
+  </div>
 
-    <!-- Route Mode Selection -->
-    <div>
-      <h2>Route Selection</h2>
-      <button onclick="showDrivingRoute()">Efficient Mode (Fastest Route)</button>
-      <button onclick="showTransitRoute()">Safe Mode (Public Transportation)</button>
-      <p id="route-output" style="font-weight: bold; font-size: 18px;"></p>
-    </div>
+  <!-- Contribution -->
+  <div>
+    <h2>Contribute</h2>
+    <button onclick="contributedatasystem(this)">Help build inclusive cities</button>
+    <p id="join-the-movement" style="font-weight: bold; font-size: 18px;"></p>
+  </div>
 
-    <!-- Real-Time Object Detection (Camera Section) -->
-    <div>
-      <h2>Real-Time Object Detection</h2>
-      <p id="connect-camera" style="font-weight: bold; font-size: 18px;"></p>
-      <video id="camera" autoplay playsinline></video><br>
-      <button onclick="startCamera()">Activate Camera</button>
-      <h4>Customize Alert System</h4>
-      <label><input type="checkbox" name="sound" checked> Enable Sound Alerts</label><br>
-      <label><input type="checkbox" name="vibration"> Enable Vibration</label>
-      <button onclick="playAlert()">Test Alert Sound</button>
-      <audio id="alert-sound" src="https://actions.google.com/sounds/v1/alarms/spaceship_alarm.ogg" preload="auto"></audio>
-      <button type="submit">Save Settings</button>
-    </div>
+  <!-- Proximity Alert -->
+  <div>
+    <h2>📡 Real-Time Proximity Alert</h2>
+    <p id="proximity-status" style="font-weight: bold; font-size: 16px;"></p>
+  </div>
 
-    
-  <head>
-    <title>YOLO with TensorFlow.js</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
-    <style>
-      #videoElement {
-        width: 640px;
-        height: 480px;
-        border: 1px solid black;
+  <!-- Google Map API & External Script -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-I-dlRuOiijTcNZkubsPTv4Pl1AW7GFI&callback=initMap"></script>
+  <script src="script.js"></script>
+
+  <!-- YOLO + Webcam + Alert Script -->
+  <script>
+    const video = document.getElementById("videoElement");
+    const container = document.getElementById("container");
+
+    let model;
+    let hasDetected = false;
+    let detectionCooldown = false;
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then((stream) => {
+        video.srcObject = stream;
+        video.onloadedmetadata = () => {
+          detectFrame();
+        };
+      })
+      .catch((err) => {
+        console.error("Failed to access webcam:", err);
+      });
+
+    async function beepThreeTimes() {
+      for (let i = 0; i < 3; i++) {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = ctx.createOscillator();
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(1000, ctx.currentTime);
+        oscillator.connect(ctx.destination);
+        oscillator.start();
+        oscillator.stop(ctx.currentTime + 0.2);
+        await new Promise(r => setTimeout(r, 300));
       }
-      canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <video autoplay="true" id="videoElement"></video>
-    <canvas id="canvas"></canvas>
-  
-    <script>
-      const video = document.getElementById("videoElement");
-      const canvas = document.getElementById("canvas");
-      const ctx = canvas.getContext("2d");
-  
-      // 1. 웹캠 시작
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then((stream) => {
-          video.srcObject = stream;
-          video.onloadedmetadata = () => {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            detectFrame();
-          };
-        });
-  
-      // 2. 모델 로딩 및 예측
-      let model;
-      async function detectFrame() {
-        if (!model) {
-          model = await cocoSsd.load(); // coco-ssd: MobileNet 기반
-        }
-  
-        const predictions = await model.detect(video);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(video, 0, 0);
-  
-        predictions.forEach(pred => {
-          ctx.beginPath();
-          ctx.rect(...pred.bbox);
-          ctx.lineWidth = 2;
-          ctx.strokeStyle = "red";
-          ctx.fillStyle = "red";
-          ctx.stroke();
-          ctx.fillText(pred.class + " " + Math.round(pred.score * 100) + "%", pred.bbox[0], pred.bbox[1] > 10 ? pred.bbox[1] - 5 : 10);
-        });
-  
-        requestAnimationFrame(detectFrame);
-      }
-    </script>
+    }
 
-    <!-- Support Section -->
-    <div>
-      <h2>Support Services</h2>
-      <button onclick="contactsystem(this)">Contact Boston 311</button>
-      <button onclick="contactsystem(this)">Contact Wonders in Reach</button>
-      <button onclick="contactsystem(this)">ADA Ramp Access Form</button>
-      <p id="contact-support" style="font-weight: bold; font-size: 18px;"></p>
-    </div>
+    function clearBoxes() {
+      const oldBoxes = container.querySelectorAll(".box");
+      oldBoxes.forEach(box => box.remove());
+    }
 
-    <!-- Contribution Section -->
-    <div>
-      <h2>Contribute Your Data</h2>
-      <button onclick="contributedatasystem(this)">Click here to help build more inclusive cities!</button>
-      <p id="join-the-movement" style="font-weight: bold; font-size: 18px;"></p>
-    </div>
+    function drawBoxes(predictions) {
+      predictions.forEach(pred => {
+        const [x, y, width, height] = pred.bbox;
 
-    <!-- Real-Time Proximity Alert -->
-    <div>
-      <h2>📡 Real-Time Proximity Alert</h2>
-      <p id="proximity-status" style="font-weight: bold; font-size: 16px;"></p>
-    </div>
+        const box = document.createElement("div");
+        box.className = "box";
+        box.style.left = `${x}px`;
+        box.style.top = `${y}px`;
+        box.style.width = `${width}px`;
+        box.style.height = `${height}px`;
+        box.innerText = `${pred.class} ${Math.round(pred.score * 100)}%`;
+        container.appendChild(box);
+      });
+    }
 
-    <!— External Scripts —>
-    <script src="script.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-I-dlRuOiijTcNZkubsPTv4Pl1AW7GFI&callback=initMap"></script>
-
-    <!— Camera & Alert Sound Functions —>
-    <script>
-      function startCamera() {
-        const video = document.getElementById('camera');
-        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-          .then(stream => {
-            video.srcObject = stream;
-          })
-          .catch(error => {
-            console.error('Failed to access camera:', error);
-            alert('Unable to access your camera.');
-          });
+    async function detectFrame() {
+      if (!model) {
+        model = await cocoSsd.load();
       }
 
-      function playAlert() {
-        const alertSound = document.getElementById('alert-sound');
-        alertSound.play();
+      const predictions = await model.detect(video);
+      clearBoxes();
+      drawBoxes(predictions);
+
+      if (!hasDetected && predictions.length > 0 && !detectionCooldown) {
+        hasDetected = true;
+        detectionCooldown = true;
+        beepThreeTimes();
+
+        setTimeout(() => {
+          hasDetected = false;
+          detectionCooldown = false;
+        }, 5000);
       }
-    </script>
-  </body>
+
+      requestAnimationFrame(detectFrame);
+    }
+
+    // Placeholder functions for map interactions
+    function setTarget(type) {
+      alert(`Target ${type} selected.`);
+    }
+
+    function showDrivingRoute() {
+      document.getElementById("route-output").innerText = "Showing fastest driving route.";
+    }
+
+    function showTransitRoute() {
+      document.getElementById("route-output").innerText = "Showing safest public transit route.";
+    }
+
+    function contactsystem(el) {
+      document.getElementById("contact-support").innerText = `You selected: ${el.innerText}`;
+    }
+
+    function contributedatasystem(el) {
+      document.getElementById("join-the-movement").innerText = "Thank you for your contribution!";
+    }
+  </script>
+</body>
 </html>
