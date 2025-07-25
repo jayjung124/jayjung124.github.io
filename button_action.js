@@ -14,9 +14,9 @@ function contactsystem(button) {
 
   if (text.includes("Boston 311")) {
     url = "https://www.boston.gov/departments/boston-311";
-  } else if (text.includes("Wonders") || text.includes("Reach")) {
+  } else if (text.includes("Wonders in Reach")) {
     url = "https://wonderswithinreach.com/2021/07/wheelchair-accessible-boston/";
-  } else if (text.includes("Ramp") || text.includes("ADA")) {
+  } else if (text.includes("Ramp Access Form")) {
     url = "https://www.boston.gov/departments/disabilities-commission/ada-curb-ramp-requests";
   } else {
     alert("No URL assigned for this contact option.");
