@@ -108,9 +108,12 @@ function initMap() {
 }
 
 /* ========= Set Start or Destination ========= */
-function setTarget(num) {
-  activeTarget = num;
-  alert(`📍 Target ${num} selected`);
+function setTarget(type) {
+    alert(`Target ${type} selected.`);
+    if(type == 1)
+        activeTarget = 1;
+    else
+        activeTarget = 2;
 }
 
 /* ========= Show Driving Route ========= */
