@@ -47,13 +47,14 @@
   <h2>♿ Wheelchair Accessibility & Navigation + YOLO Detection</h2>
 
   <!-- Coordinate Input -->
-  <div id="buttons">
-    <button onclick="setTarget(1)">Set Start Point</button>
-    <input id="lat1" placeholder="Start Latitude" />
-    <input id="lng1" placeholder="Start Longitude" />
-    <button onclick="setTarget(2)">Set Destination</button>
-    <input id="lat2" placeholder="Destination Latitude" />
-    <input id="lng2" placeholder="Destination Longitude" />
+  <div id="buttons" class="mb-4">
+    <button class="btn btn-primary btn-lg rounded-pill me-2 mb-2" onclick="setTarget(1)">Set Start Point</button>
+    <input class="form-control form-control-lg rounded-pill d-inline w-auto me-2 mb-2" id="lat1" placeholder="Start Latitude" />
+    <input class="form-control form-control-lg rounded-pill d-inline w-auto mb-2" id="lng1" placeholder="Start Longitude" />
+    <br>
+    <button class="btn btn-success btn-lg rounded-pill me-2 mb-2" onclick="setTarget(2)">Set Destination</button>
+    <input class="form-control form-control-lg rounded-pill d-inline w-auto me-2 mb-2" id="lat2" placeholder="Destination Latitude" />
+    <input class="form-control form-control-lg rounded-pill d-inline w-auto mb-2" id="lng2" placeholder="Destination Longitude" />
   </div>
 
   <!-- Google Map -->
