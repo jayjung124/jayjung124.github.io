@@ -80,6 +80,38 @@
       <p id="connect-camera" style="font-weight: bold; font-size: 18px;"></p>
       <video id="camera" autoplay playsinline></video><br>
       <button onclick="startCamera()">Activate Camera</button>
+      <script>
+      const video = document.getElementById("videoElement");
+      const container = document.getElementById("container");
+  
+      let model;
+      let hasDetected = false;
+      let detectionCooldown = false;
+  
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } } })
+        .then((stream) => {
+          video.srcObject = stream;
+          video.onloadedmetadata = () => {
+            detectFrame();
+          };
+        })
+        .catch((err) => {
+          console.error("Failed to access webcam:", err);
+        });
+  
+      async function beepThreeTimes() {
+        for (let i = 0; i < 3; i++) {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = ctx.createOscillator();
+          oscillator.type = "sine";
+          oscillator.frequency.setValueAtTime(1000, ctx.currentTime);
+          oscillator.connect(ctx.destination);
+          oscillator.start();
+          oscillator.stop(ctx.currentTime + 0.2);
+          await new Promise(r => setTimeout(r, 300));
+        }
+      }
+      </script>
       <h4>Customize Alert System</h4>
       <label><input type="checkbox" name="sound" checked> Enable Sound Alerts</label><br>
       <label><input type="checkbox" name="vibration"> Enable Vibration</label>
@@ -123,37 +155,6 @@
 
   <!-- YOLO + Webcam + Alert Script -->
   <script>
-    const video = document.getElementById("videoElement");
-    const container = document.getElementById("container");
-
-    let model;
-    let hasDetected = false;
-    let detectionCooldown = false;
-
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } } })
-      .then((stream) => {
-        video.srcObject = stream;
-        video.onloadedmetadata = () => {
-          detectFrame();
-        };
-      })
-      .catch((err) => {
-        console.error("Failed to access webcam:", err);
-      });
-
-    async function beepThreeTimes() {
-      for (let i = 0; i < 3; i++) {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = ctx.createOscillator();
-        oscillator.type = "sine";
-        oscillator.frequency.setValueAtTime(1000, ctx.currentTime);
-        oscillator.connect(ctx.destination);
-        oscillator.start();
-        oscillator.stop(ctx.currentTime + 0.2);
-        await new Promise(r => setTimeout(r, 300));
-      }
-    }
-
     function clearBoxes() {
       const oldBoxes = container.querySelectorAll(".box");
       oldBoxes.forEach(box => box.remove());
