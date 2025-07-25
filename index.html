@@ -123,34 +123,24 @@
 
   <!-- YOLO + Webcam + Alert Script -->
   <script>
-  <script>
     const video = document.getElementById("videoElement");
     const container = document.getElementById("container");
-  
+
     let model;
     let hasDetected = false;
     let detectionCooldown = false;
-    let cameraStarted = false;
-  
-    async function startCamera() {
-      if (cameraStarted) return; // Prevent multiple initializations
-      cameraStarted = true;
-  
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: { ideal: "environment" } }
-        });
+
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } } })
+      .then((stream) => {
         video.srcObject = stream;
         video.onloadedmetadata = () => {
           detectFrame();
         };
-        document.getElementById("connect-camera").innerText = "Camera Activated!";
-      } catch (err) {
+      })
+      .catch((err) => {
         console.error("Failed to access webcam:", err);
-        document.getElementById("connect-camera").innerText = "Camera Access Failed.";
-      }
-    }
-  
+      });
+
     async function beepThreeTimes() {
       for (let i = 0; i < 3; i++) {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -163,16 +153,16 @@
         await new Promise(r => setTimeout(r, 300));
       }
     }
-  
+
     function clearBoxes() {
       const oldBoxes = container.querySelectorAll(".box");
       oldBoxes.forEach(box => box.remove());
     }
-  
+
     function drawBoxes(predictions) {
       predictions.forEach(pred => {
         const [x, y, width, height] = pred.bbox;
-  
+
         const box = document.createElement("div");
         box.className = "box";
         box.style.left = `${x}px`;
@@ -183,52 +173,51 @@
         container.appendChild(box);
       });
     }
-  
+
     async function detectFrame() {
       if (!model) {
         model = await cocoSsd.load();
       }
-  
+
       const predictions = await model.detect(video);
       clearBoxes();
       drawBoxes(predictions);
-  
+
       if (!hasDetected && predictions.length > 0 && !detectionCooldown) {
         hasDetected = true;
         detectionCooldown = true;
         beepThreeTimes();
-  
+
         setTimeout(() => {
           hasDetected = false;
           detectionCooldown = false;
         }, 5000);
       }
-  
+
       requestAnimationFrame(detectFrame);
     }
-  
+
     // Placeholder functions for map interactions
     function setTarget(type) {
       alert(`Target ${type} selected.`);
     }
-  
+
     function showDrivingRoute() {
       document.getElementById("route-output").innerText = "Showing fastest driving route.";
     }
-  
+
     function showTransitRoute() {
       document.getElementById("route-output").innerText = "Showing safest public transit route.";
     }
-  
+
     function contactsystem(el) {
       document.getElementById("contact-support").innerText = `You selected: ${el.innerText}`;
     }
-  
+
     function contributedatasystem(el) {
       document.getElementById("join-the-movement").innerText = "Thank you for your contribution!";
     }
   </script>
-
 </body>
 </html>
 
