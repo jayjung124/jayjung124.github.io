@@ -65,6 +65,70 @@
       <button type="submit">Save Settings</button>
     </div>
 
+    
+  <head>
+    <title>YOLO with TensorFlow.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+    <style>
+      #videoElement {
+        width: 640px;
+        height: 480px;
+        border: 1px solid black;
+      }
+      canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>YOLO Object Detection in Browser</h2>
+    <video autoplay="true" id="videoElement"></video>
+    <canvas id="canvas"></canvas>
+  
+    <script>
+      const video = document.getElementById("videoElement");
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+  
+      // 1. 웹캠 시작
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then((stream) => {
+          video.srcObject = stream;
+          video.onloadedmetadata = () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            detectFrame();
+          };
+        });
+  
+      // 2. 모델 로딩 및 예측
+      let model;
+      async function detectFrame() {
+        if (!model) {
+          model = await cocoSsd.load(); // coco-ssd: MobileNet 기반
+        }
+  
+        const predictions = await model.detect(video);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(video, 0, 0);
+  
+        predictions.forEach(pred => {
+          ctx.beginPath();
+          ctx.rect(...pred.bbox);
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = "red";
+          ctx.fillStyle = "red";
+          ctx.stroke();
+          ctx.fillText(pred.class + " " + Math.round(pred.score * 100) + "%", pred.bbox[0], pred.bbox[1] > 10 ? pred.bbox[1] - 5 : 10);
+        });
+  
+        requestAnimationFrame(detectFrame);
+      }
+    </script>
+
     <!-- Support Section -->
     <div>
       <h2>Support Services</h2>
