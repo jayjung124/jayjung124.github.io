@@ -194,15 +194,3 @@ function getInputCoords() {
   }
   return [lat1, lng1, lat2, lng2];
 }
-
-/* ========= Camera / Alert Sound ========= */
-function startCamera() {
-  const video = document.getElementById('camera');
-  navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-    .then(stream => video.srcObject = stream)
-    .catch(err => alert('Failed to access camera: ' + err));
-}
-
-function playAlert() {
-  document.getElementById('alert-sound').play();
-}
