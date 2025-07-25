@@ -132,7 +132,7 @@
     let hasDetected = false;
     let detectionCooldown = false;
 
-    navigator.mediaDevices.getUserMedia({ video: true })
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } } })
       .then((stream) => {
         video.srcObject = stream;
         video.onloadedmetadata = () => {
