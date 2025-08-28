@@ -76,15 +76,6 @@
     <p id="proximity-status" style="font-weight: bold; font-size: 16px;"></p>
   </div>
 
-  <!-- YOLO Detection -->
-  <div>
-    <h2>Real-Time Object Detection</h2>
-    <div id="container">
-      <video autoplay="true" id="videoElement" playsinline></video>
-      <!-- Bounding boxes (.box) will be dynamically inserted here -->
-    </div>
-  </div>
-
   <!-- Support Services -->
 <div class="mb-5">
     <h2>Support Services</h2>
@@ -107,82 +98,6 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-I-dlRuOiijTcNZkubsPTv4Pl1AW7GFI&callback=initMap"></script>
   <script src="script.js"></script>
   <script src="button_action.js"></script>
-
-  <!-- YOLO + Webcam + Alert Script -->
-  <script>
-    const video = document.getElementById("videoElement");
-    const container = document.getElementById("container");
-
-    let model;
-    let hasDetected = false;
-    let detectionCooldown = false;
-
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } } })
-      .then((stream) => {
-        video.srcObject = stream;
-        video.onloadedmetadata = () => {
-          detectFrame();
-        };
-      })
-      .catch((err) => {
-        console.error("Failed to access webcam:", err);
-      });
-
-    async function beepThreeTimes() {
-      for (let i = 0; i < 3; i++) {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = ctx.createOscillator();
-        oscillator.type = "sine";
-        oscillator.frequency.setValueAtTime(1000, ctx.currentTime);
-        oscillator.connect(ctx.destination);
-        oscillator.start();
-        oscillator.stop(ctx.currentTime + 0.2);
-        await new Promise(r => setTimeout(r, 300));
-      }
-    }
-
-    function clearBoxes() {
-      const oldBoxes = container.querySelectorAll(".box");
-      oldBoxes.forEach(box => box.remove());
-    }
-
-    function drawBoxes(predictions) {
-      predictions.forEach(pred => {
-        const [x, y, width, height] = pred.bbox;
-
-        const box = document.createElement("div");
-        box.className = "box";
-        box.style.left = `${x}px`;
-        box.style.top = `${y}px`;
-        box.style.width = `${width}px`;
-        box.style.height = `${height}px`;
-        box.innerText = `${pred.class} ${Math.round(pred.score * 100)}%`;
-        container.appendChild(box);
-      });
-    }
-
-    async function detectFrame() {
-      if (!model) {
-        model = await cocoSsd.load();
-      }
-
-      const predictions = await model.detect(video);
-      clearBoxes();
-      drawBoxes(predictions);
-
-      if (!hasDetected && predictions.length > 0 && !detectionCooldown) {
-        hasDetected = true;
-        detectionCooldown = true;
-        beepThreeTimes();
-
-        setTimeout(() => {
-          hasDetected = false;
-          detectionCooldown = false;
-        }, 5000);
-      }
-
-      requestAnimationFrame(detectFrame);
-    }
   </script>
 </body>
 </html>
